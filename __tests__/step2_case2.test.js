@@ -16,7 +16,7 @@ test('Title == google', async () => {
     await page.goto(url);   
     const title = await page.title();
     expect(title).toBe("Google");
-    await page.click("input[name=q]");
+    await page.focus("input[name=q]");
     var file = "pdf adobe"
     await page.type("input[name=q]", "filetype:".concat(file));
     await page.evaluate(async() => {

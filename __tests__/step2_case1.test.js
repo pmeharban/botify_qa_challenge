@@ -16,7 +16,7 @@ test('Title == google', async () => {
     await page.goto(url);   
     const title = await page.title();
     expect(title).toBe("Google");
-    await page.click("input[name=q]");
+    await page.focus("input[name=q]");
     var host = "facebook.com"
     await page.type("input[name=q]", "site:".concat(host));
     await page.evaluate(async() => {

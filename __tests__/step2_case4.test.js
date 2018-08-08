@@ -18,7 +18,6 @@ test('Title == google', async () => {
     const title = await page.title();
     expect(title).toBe("Google");
     await page.focus("input[name=q]");
-    await page.click("input[name=q]");
     await page.type("input[name=q]", '2+4');
     await page.evaluate(async() => {
       await new Promise(function(resolve) { 
