@@ -1,10 +1,10 @@
 const puppeteer = require('puppeteer');
-jest.setTimeout(50000);
+jest.setTimeout(30000);
 describe('Open Google', () => {
   var browser, page;
   var url = 'https://google.com'
 beforeEach (async () => {
-    browser = await puppeteer.launch({ headless: false });
+    browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
   })
 afterEach (() => {
@@ -12,7 +12,7 @@ afterEach (() => {
   })
 
  //Opening the Page and entering the search query 
-test('Title == google', async () => {
+test('site filter search', async () => {
     await page.goto(url);   
     const title = await page.title();
     expect(title).toBe("Google");
@@ -24,7 +24,8 @@ test('Title == google', async () => {
              setTimeout(resolve, 1000)
       });
   });
-    await page.click('input[type=submit]');   
+    //await page.click('input[type=submit]');  
+    await page.keyboard.press(String.fromCharCode(13));    
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
 // Iterating the resultList
@@ -34,13 +35,13 @@ var resultList = [];
 for(var i= 0;i<xpath.length;i++){
 resultList.push(await page.evaluate(el => el.textContent,xpath[i]));
 }
-console.log(resultList);
+//console.log(resultList);
 
 //Validating the Host
 for (var i=0;i<resultList.length;i++){
   expect(resultList[i]).toMatch(host);
 }
 
-});
+}, 30000);
 
 })
