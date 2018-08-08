@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-jest.setTimeout(30000);
+jest.setTimeout(50000);
 describe('Open Google', () => {
   var browser, page;
   var url = 'https://google.com'
@@ -10,7 +10,6 @@ beforeEach (async () => {
 afterEach (() => {
     browser.close()
   })
-  
 
  //Opening the Page and entering the search query 
 test('Title == google', async () => {
@@ -18,7 +17,8 @@ test('Title == google', async () => {
     const title = await page.title();
     expect(title).toBe("Google");
     await page.click("input[name=q]");
-    await page.type("input[name=q]", "Botify");
+    var host = "facebook.com"
+    await page.type("input[name=q]", "site:".concat(host));
     await page.evaluate(async() => {
       await new Promise(function(resolve) { 
              setTimeout(resolve, 1000)
@@ -27,5 +27,20 @@ test('Title == google', async () => {
     await page.click('input[type=submit]');   
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-  });    
+// Iterating the resultList
+var resultxpath = "//*[@id='rso']//cite";
+var xpath = await page.$x(resultxpath);
+var resultList = [];
+for(var i= 0;i<xpath.length;i++){
+resultList.push(await page.evaluate(el => el.textContent,xpath[i]));
+}
+console.log(resultList);
+
+//Validating the Host
+for (var i=0;i<resultList.length;i++){
+  expect(resultList[i]).toMatch(host);
+}
+
+});
+
 })

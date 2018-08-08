@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-jest.setTimeout(30000);
+jest.setTimeout(50000);
 describe('Open Google', () => {
   var browser, page;
   var url = 'https://google.com'
